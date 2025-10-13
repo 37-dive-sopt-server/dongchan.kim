@@ -2,6 +2,9 @@ package org.sopt.service;
 
 import org.sopt.domain.Member;
 import org.sopt.dto.member.MemberSignupRequest;
+import org.sopt.exception.DuplicateEmailException;
+import org.sopt.exception.MemberNotFoundException;
+import org.sopt.exception.UnderageMemberException;
 import org.sopt.repository.MemoryMemberRepository;
 
 import java.time.LocalDate;
@@ -19,11 +22,11 @@ public class MemberServiceImpl implements MemberService {
     public Long join(MemberSignupRequest request) {
 
         if(existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+            throw new DuplicateEmailException();
         }
 
         if(calculateAge(request.getBirthDate()) < 20) {
-            throw new IllegalArgumentException("20세 미만은 회원가입이 불가능합니다.");
+            throw new UnderageMemberException();
         }
 
         Member member = new Member(
@@ -50,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void delete(Long memberId) {
         if(!memberRepository.deleteById(memberId)){
-            throw new IllegalArgumentException("존재 하지 않는 id 입니다");
+            throw new MemberNotFoundException();
         }
     }
 

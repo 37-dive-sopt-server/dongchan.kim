@@ -24,4 +24,14 @@ public class MemoryMemberRepository {
     public List<Member> findAll() {
         return new ArrayList<>(store.values());
     }
+
+    public Optional<Member> findByEmail(String email) {
+        return store.values().stream()
+                .filter(m -> m.getEmail().equalsIgnoreCase(email))
+                .findFirst();
+    }
+
+    public boolean existsByEmail(String email) {
+        return findByEmail(email).isPresent();
+    }
 }

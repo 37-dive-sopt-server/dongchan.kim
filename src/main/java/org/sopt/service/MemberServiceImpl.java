@@ -14,6 +14,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(MemberSignupRequest request) {
+
+        if(existsByEmail(request.getEmail())) {
+            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+        }
+
         Member member = new Member(
                 sequence++,
                 request.getName(),
@@ -33,5 +38,9 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<Member> findAllMembers() {
         return memberRepository.findAll();
+    }
+
+    private Boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(email);
     }
 }

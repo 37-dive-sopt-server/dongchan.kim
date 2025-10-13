@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MemberService {
 
-    Long join(String name);
+    Long join(org.sopt.dto.member.MemberSignupRequest request);
 
     Optional<Member> findOne(Long memberId);
 

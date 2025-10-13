@@ -11,10 +11,8 @@ public class MemoryMemberRepository {
 
 
     public Member save(Member member) {
-
         store.put(member.getId(), member);
         return member;
-
     }
 
 

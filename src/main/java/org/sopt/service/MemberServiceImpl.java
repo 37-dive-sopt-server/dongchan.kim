@@ -2,8 +2,11 @@ package org.sopt.service;
 
 import org.sopt.domain.Member;
 import org.sopt.dto.member.MemberSignupRequest;
-import org.sopt.respository.MemoryMemberRepository;
+import org.sopt.repository.MemoryMemberRepository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,10 @@ public class MemberServiceImpl implements MemberService {
 
         if(existsByEmail(request.getEmail())) {
             throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+        }
+
+        if(calculateAge(request.getBirthDate()) < 20) {
+            throw new IllegalArgumentException("20세 미만은 회원가입이 불가능합니다.");
         }
 
         Member member = new Member(
@@ -49,5 +56,10 @@ public class MemberServiceImpl implements MemberService {
 
     private Boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
+    }
+
+    private int calculateAge(LocalDateTime birthDate) {
+        LocalDate today = LocalDate.now();
+        return Period.between(LocalDate.from(birthDate),today).getYears();
     }
 }

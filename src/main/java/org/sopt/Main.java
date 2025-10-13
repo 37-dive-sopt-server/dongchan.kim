@@ -126,10 +126,28 @@ public class Main {
                     }
                     break;
                 }
-                case "4":
+
+                case "4": { // ✅ 삭제
+                    System.out.print("삭제할 회원 ID를 입력하세요: ");
+                    try {
+                        Long id = Long.parseLong(scanner.nextLine().trim());
+                        try {
+                            memberController.deleteMember(id);
+                            System.out.println("🗑️ 회원 삭제 완료 (ID: " + id + ")");
+                        } catch (IllegalArgumentException e) {
+                            System.out.println("⚠️ " + e.getMessage());
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
+                    }
+                    break;
+                }
+
+                case "5":
                     System.out.println("👋 서비스를 종료합니다. 안녕히 계세요!");
                     scanner.close();
                     return;
+
                 default:
                     System.out.println("🚫 잘못된 메뉴 선택입니다. 다시 시도해주세요.");
             }

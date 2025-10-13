@@ -40,6 +40,13 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findAll();
     }
 
+    @Override
+    public void delete(Long memberId) {
+        if(!memberRepository.deleteById(memberId)){
+            throw new IllegalArgumentException("존재 하지 않는 id 입니다");
+        }
+    }
+
     private Boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }

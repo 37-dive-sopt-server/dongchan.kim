@@ -31,6 +31,10 @@ public class MemoryMemberRepository {
                 .findFirst();
     }
 
+    public boolean deleteById(Long id) {
+        return store.remove(id) != null;
+    }
+
     public boolean existsByEmail(String email) {
         return findByEmail(email).isPresent();
     }

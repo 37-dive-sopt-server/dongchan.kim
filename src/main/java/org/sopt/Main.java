@@ -1,6 +1,7 @@
 package org.sopt;
 
 import org.sopt.controller.MemberController;
+import org.sopt.controller.config.AppConfig;
 import org.sopt.domain.Member;
 import org.sopt.domain.enums.Gender;
 import org.sopt.dto.member.MemberSignupRequest;
@@ -15,7 +16,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        MemberController memberController = new MemberController();
+        AppConfig appConfig = new AppConfig();
+
+        MemberController memberController = appConfig.memberController();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {

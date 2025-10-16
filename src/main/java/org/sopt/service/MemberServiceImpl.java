@@ -5,7 +5,7 @@ import org.sopt.dto.member.MemberSignupRequest;
 import org.sopt.exception.DuplicateEmailException;
 import org.sopt.exception.MemberNotFoundException;
 import org.sopt.exception.UnderageMemberException;
-import org.sopt.repository.MemoryMemberRepository;
+import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,8 +15,12 @@ import java.util.Optional;
 
 public class MemberServiceImpl implements MemberService {
 
-    private final MemoryMemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository;
     private static long sequence = 1L;
+
+    public MemberServiceImpl(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
 
     @Override
     public Long join(MemberSignupRequest request) {

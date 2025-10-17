@@ -15,7 +15,6 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private static long sequence = 1L;
 
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
@@ -23,22 +22,20 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(MemberSignupRequest request) {
-
-        if(existsByEmail(request.getEmail())) {
+        if (existsByEmail(request.getEmail())) {
             throw new DuplicateEmailException();
         }
-
-        if(calculateAge(request.getBirthDate()) < 20) {
+        if (calculateAge(request.getBirthDate()) < 20) {
             throw new UnderageMemberException();
         }
 
-        Member member = new Member(
-                sequence++,
-                request.getName(),
-                request.getEmail(),
-                request.getGender(),
-                request.getBirthDate()
-        );
+        Member member = Member.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .gender(request.getGender())
+                .birthDate(request.getBirthDate())
+                .build();
+
         memberRepository.save(member);
         return member.getId();
     }
@@ -55,17 +52,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void delete(Long memberId) {
-        if(!memberRepository.deleteById(memberId)){
+        if (!memberRepository.deleteById(memberId)) {
             throw new MemberNotFoundException();
         }
     }
 
-    private Boolean existsByEmail(String email) {
+    private boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
 
     private int calculateAge(LocalDate birthDate) {
-        LocalDate today = LocalDate.now();
-        return Period.between(LocalDate.from(birthDate),today).getYears();
+        return Period.between(birthDate, LocalDate.now()).getYears();
     }
 }

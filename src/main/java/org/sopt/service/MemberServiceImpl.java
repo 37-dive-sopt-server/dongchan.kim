@@ -6,6 +6,7 @@ import org.sopt.exception.DuplicateEmailException;
 import org.sopt.exception.MemberNotFoundException;
 import org.sopt.exception.UnderageMemberException;
 import org.sopt.repository.MemberRepository;
+import org.sopt.util.AgeCalculator;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -25,7 +26,7 @@ public class MemberServiceImpl implements MemberService {
         if (existsByEmail(request.getEmail())) {
             throw new DuplicateEmailException();
         }
-        if (calculateAge(request.getBirthDate()) < 20) {
+        if (AgeCalculator.calculate(request.getBirthDate()) < 20) {
             throw new UnderageMemberException();
         }
 

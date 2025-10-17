@@ -5,10 +5,9 @@ import org.sopt.controller.config.AppConfig;
 import org.sopt.domain.Member;
 import org.sopt.domain.enums.Gender;
 import org.sopt.dto.member.MemberSignupRequest;
-import org.sopt.exception.*;
+import org.sopt.exception.ExceptionHandler;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -57,11 +56,10 @@ public class Main {
 
                         System.out.print("생년월일을 입력하세요 (yyyy-MM-dd): ");
                         String birthStr = scanner.nextLine().trim();
-                        LocalDate birth = LocalDate.parse(birthStr); // 형식 오류 시 DateTimeParseException
-                        LocalDateTime birthDateTime = birth.atStartOfDay();
+                        LocalDate birthDay = LocalDate.parse(birthStr); // 형식 오류 시 DateTimeParseException
 
                         MemberSignupRequest request = new MemberSignupRequest(
-                                name, email, gender, birthDateTime
+                                name, email, gender, birthDay
                         );
 
                         Long createdId = memberController.createMember(request);

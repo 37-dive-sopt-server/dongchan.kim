@@ -27,7 +27,7 @@ public class MemoryMemberRepository implements MemberRepository {
 
     public Optional<Member> findByEmail(String email) {
         return store.values().stream()
-                .filter(m -> m.getEmail().equalsIgnoreCase(email))
+                .filter(m -> m.hasEmail(email))
                 .findFirst();
     }
 

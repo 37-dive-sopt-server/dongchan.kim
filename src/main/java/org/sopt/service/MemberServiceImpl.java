@@ -8,7 +8,6 @@ import org.sopt.exception.UnderageMemberException;
 import org.sopt.repository.MemberRepository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +64,7 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByEmail(email);
     }
 
-    private int calculateAge(LocalDateTime birthDate) {
+    private int calculateAge(LocalDate birthDate) {
         LocalDate today = LocalDate.now();
         return Period.between(LocalDate.from(birthDate),today).getYears();
     }

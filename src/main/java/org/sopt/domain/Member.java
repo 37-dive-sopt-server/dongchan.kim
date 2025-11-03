@@ -1,15 +1,25 @@
 package org.sopt.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.sopt.domain.enums.Gender;
 import java.time.LocalDate;
 
+@Entity
 public class Member {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String name;
-    private final String email;
-    private final Gender gender;
-    private final LocalDate birthDate;
+    private String name;
+    private String email;
+    private Gender gender;
+    private LocalDate birthDate;
+
+    public Member() {
+    }
 
     private Member(Builder builder) {
         this.id = builder.id;

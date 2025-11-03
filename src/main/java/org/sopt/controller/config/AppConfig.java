@@ -2,7 +2,6 @@ package org.sopt.controller.config;
 
 import org.sopt.controller.MemberController;
 import org.sopt.repository.MemberRepository;
-import org.sopt.repository.MemoryMemberRepository;
 import org.sopt.service.MemberService;
 import org.sopt.service.MemberServiceImpl;
 

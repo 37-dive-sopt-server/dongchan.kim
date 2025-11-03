@@ -1,4 +1,4 @@
-package org.sopt.controller.config;
+package org.sopt.config;
 
 import org.sopt.controller.MemberController;
 import org.sopt.repository.MemberRepository;

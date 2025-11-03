@@ -1,13 +1,15 @@
 package org.sopt.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 import org.sopt.domain.enums.Gender;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Data
 public class Member {
 
     @Id
@@ -17,8 +19,10 @@ public class Member {
     private String email;
     private Gender gender;
     private LocalDate birthDate;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Article> articles = new ArrayList<>();
 
-    public Member() {
+    protected Member() {
     }
 
     private Member(Builder builder) {
@@ -78,9 +82,14 @@ public class Member {
         return this.email.equalsIgnoreCase(email);
     }
 
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public Gender getGender() { return gender; }
-    public LocalDate getBirthDate() { return birthDate; }
+    public void addArticle(Article article) {
+        articles.add(article);
+        article.setAuthor(this);
+    }
+    //SOFT , HARD 중에 골라서 구현할 예정
+    public void removeArticle(Article article) {
+        articles.remove(article);
+        article.setAuthor(null);
+    }
+
 }

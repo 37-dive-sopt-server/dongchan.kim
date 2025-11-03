@@ -9,7 +9,7 @@ public interface MemberService {
 
     Long join(org.sopt.dto.member.MemberSignupRequest request);
 
-    Optional<Member> findOne(Long memberId);
+    Member findOne(Long memberId);
 
     List<Member> findAllMembers();
 

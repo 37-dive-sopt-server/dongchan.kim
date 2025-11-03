@@ -7,34 +7,35 @@ import org.sopt.exception.MemberNotFoundException;
 import org.sopt.exception.UnderageMemberException;
 import org.sopt.repository.MemberRepository;
 import org.sopt.util.AgeCalculator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 
+@Service
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Autowired
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     @Override
     public Long join(MemberSignupRequest request) {
-        if (existsByEmail(request.getEmail())) {
+        if (existsByEmail(request.email())) {
             throw new DuplicateEmailException();
         }
-        if (AgeCalculator.calculate(request.getBirthDate()) < 20) {
+        if (AgeCalculator.calculate(request.birthDate()) < 20) {
             throw new UnderageMemberException();
         }
 
         Member member = Member.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .gender(request.getGender())
-                .birthDate(request.getBirthDate())
+                .name(request.name())
+                .email(request.email())
+                .gender(request.gender())
+                .birthDate(request.birthDate())
                 .build();
 
         memberRepository.save(member);
@@ -42,8 +43,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Optional<Member> findOne(Long memberId) {
-        return memberRepository.findById(memberId);
+    public Member findOne(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     @Override
@@ -62,7 +64,4 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.existsByEmail(email);
     }
 
-    private int calculateAge(LocalDate birthDate) {
-        return Period.between(birthDate, LocalDate.now()).getYears();
-    }
 }

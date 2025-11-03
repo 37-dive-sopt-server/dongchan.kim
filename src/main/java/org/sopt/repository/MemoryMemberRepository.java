@@ -1,11 +1,13 @@
 package org.sopt.repository;
 
 import org.sopt.domain.Member;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Repository
 public class MemoryMemberRepository implements MemberRepository {
 
     private final static Map<Long, Member> store = new ConcurrentHashMap<>();

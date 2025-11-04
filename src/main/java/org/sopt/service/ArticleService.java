@@ -41,6 +41,14 @@ public class ArticleService {
         return toResponse(saved);
     }
 
+    public ArticleListResponse search(String title, String authorName, Pageable pageable) {
+        Page<Article> page = articleRepository.search(title, authorName, pageable);
+        return new ArticleListResponse(
+                page.map(this::toResponse).getContent(),
+                page.getTotalElements()
+        );
+    }
+
     public ArticleResponse getOne(Long id) {
         Article article = articleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("아티클을 찾을 수 없습니다. id=" + id));

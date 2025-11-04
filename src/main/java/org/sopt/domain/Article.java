@@ -45,7 +45,7 @@ public class Article {
     }
 
 
-    public static Article create(Member author, ArticleTag tag, String title, String content) {
+    public static Article of(Member author, ArticleTag tag, String title, String content) {
         return new Article(author, tag, title, content);
     }
 

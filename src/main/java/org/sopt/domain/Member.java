@@ -1,7 +1,6 @@
 package org.sopt.domain;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 import org.sopt.domain.enums.Gender;
 import java.time.LocalDate;
@@ -72,10 +71,6 @@ public class Member {
 
     public static Builder builder() {
         return new Builder();
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public boolean hasEmail(String email) {

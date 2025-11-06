@@ -7,6 +7,7 @@ import org.sopt.dto.article.ArticleResponse;
 import org.sopt.service.ArticleService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,5 +38,15 @@ public class ArticleController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return articleService.getAll(pageable);
+    }
+
+    @GetMapping("/search")
+    public ArticleListResponse search(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String authorName,
+            @PageableDefault(size = 20, sort = "createdAt", direction = org.springframework.data.domain.Sort.Direction.DESC)
+            Pageable pageable
+    ) {
+        return articleService.search(title, authorName, pageable);
     }
 }

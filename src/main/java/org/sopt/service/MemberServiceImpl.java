@@ -55,9 +55,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void delete(Long memberId) {
-        if (!memberRepository.deleteById(memberId)) {
-            throw new MemberNotFoundException();
-        }
+        memberRepository.deleteById(memberId);
     }
 
     private boolean existsByEmail(String email) {

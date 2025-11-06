@@ -8,6 +8,14 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(
+        name = "article",
+        indexes = {
+                @Index(name = "idx_article_author", columnList = "member_id"),
+                @Index(name = "idx_article_tag_created", columnList = "tag, created_at"),
+                @Index(name = "idx_article_created_id", columnList = "created_at, id")
+        }
+)
 @Getter
 @ToString
 @EqualsAndHashCode

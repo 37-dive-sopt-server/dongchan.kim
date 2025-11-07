@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
         return Map.of("message", e.getMessage());
     }
 
-    @ExceptionHandler( MethodArgumentNotValidException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, String> handleBadRequest(Exception e) {
         String msg = (e instanceof MethodArgumentNotValidException manv)

@@ -1,14 +1,15 @@
 package org.sopt.exception;
 
 public abstract class DomainException extends RuntimeException {
-    private final ErrorCode code;
+    private final ErrorCode errorCode;
 
-    protected DomainException(ErrorCode code, String message) {
-        super(message);
-        this.code = code;
+    protected DomainException(ErrorCode errorCode) {
+        super(errorCode.getDefaultMessage());
+        this.errorCode = errorCode;
     }
 
-    public ErrorCode getCode() {
-        return code;
+    protected DomainException(ErrorCode errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
     }
 }

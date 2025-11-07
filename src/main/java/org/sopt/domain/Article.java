@@ -38,7 +38,7 @@ public class Article {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(name = "title", nullable = false, length = 200)
+    @Column(name = "title", nullable = false, unique = true, length = 200)
     private String title;
 
     @Lob

@@ -2,10 +2,8 @@ package org.sopt.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.sopt.domain.common.BaseEntity;
 import org.sopt.domain.enums.ArticleTag;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(
@@ -18,9 +16,9 @@ import java.time.LocalDateTime;
 )
 @Getter
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @RequiredArgsConstructor
-public class Article {
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,18 +29,14 @@ public class Article {
     private Member author;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tag", nullable = false, length = 30)
+    @Column(nullable = false, length = 30)
     private ArticleTag tag;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "title", nullable = false, unique = true, length = 200)
+    @Column(nullable = false, unique = true, length = 200)
     private String title;
 
     @Lob
-    @Column(name = "content", nullable = false)
+    @Column(nullable = false)
     private String content;
 
     private Article(Member author, ArticleTag tag, String title, String content) {
@@ -52,17 +46,12 @@ public class Article {
         this.content = content;
     }
 
-
     public static Article of(Member author, ArticleTag tag, String title, String content) {
         return new Article(author, tag, title, content);
     }
 
-
     public void changeTitle(String title) { this.title = title; }
     public void changeContent(String content) { this.content = content; }
     public void changeTag(ArticleTag tag) { this.tag = tag; }
-
-
     public void setAuthor(Member author) { this.author = author; }
-
 }

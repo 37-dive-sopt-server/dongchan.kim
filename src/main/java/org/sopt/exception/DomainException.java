@@ -1,5 +1,8 @@
 package org.sopt.exception;
 
+import lombok.Getter;
+
+@Getter
 public abstract class DomainException extends RuntimeException {
     private final ErrorCode errorCode;
 

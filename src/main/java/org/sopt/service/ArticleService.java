@@ -6,7 +6,7 @@ import org.sopt.domain.Member;
 import org.sopt.dto.article.ArticleCreateRequest;
 import org.sopt.dto.article.ArticleListResponse;
 import org.sopt.dto.article.ArticleResponse;
-import org.sopt.exception.MemberNotFoundException;
+import org.sopt.exception.member.MemberNotFoundException;
 import org.sopt.repository.ArticleRepository;
 import org.sopt.repository.MemberRepository;
 import org.springframework.dao.DataIntegrityViolationException;

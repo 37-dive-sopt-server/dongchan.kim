@@ -22,10 +22,10 @@ public enum ErrorCode {
     DUPLICATE_ARTICLE_TITLE(HttpStatus.CONFLICT, "이미 존재하는 제목입니다");
 
     private final HttpStatus status;
-    private final String message;
+    private final String defaultMessage;
 
-    ErrorCode(HttpStatus status, String message) {
+    ErrorCode(HttpStatus status, String defaultMessage) {
         this.status = status;
-        this.message = message;
+        this.defaultMessage = defaultMessage;
     }
 }

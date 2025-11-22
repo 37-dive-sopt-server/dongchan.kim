@@ -2,9 +2,9 @@ package org.sopt.service;
 
 import org.sopt.domain.Member;
 import org.sopt.dto.member.MemberSignupRequest;
-import org.sopt.exception.DuplicateEmailException;
-import org.sopt.exception.MemberNotFoundException;
-import org.sopt.exception.UnderageMemberException;
+import org.sopt.exception.member.DuplicateEmailException;
+import org.sopt.exception.member.MemberNotFoundException;
+import org.sopt.exception.member.UnderageMemberException;
 import org.sopt.repository.MemberRepository;
 import org.sopt.util.AgeCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,9 +55,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void delete(Long memberId) {
-        if (!memberRepository.deleteById(memberId)) {
-            throw new MemberNotFoundException();
-        }
+        memberRepository.deleteById(memberId);
     }
 
     private boolean existsByEmail(String email) {

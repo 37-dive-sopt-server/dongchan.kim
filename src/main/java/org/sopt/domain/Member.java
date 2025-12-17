@@ -1,7 +1,9 @@
 package org.sopt.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.domain.common.BaseEntity;
 import org.sopt.domain.enums.Gender;
 
@@ -10,15 +12,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@NoArgsConstructor
 public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -28,33 +37,17 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Article> articles = new ArrayList<>();
 
-    protected Member() {}
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
-    private Member(Builder builder) {
-        this.id = builder.id;
-        this.name = builder.name;
-        this.email = builder.email;
-        this.gender = builder.gender;
-        this.birthDate = builder.birthDate;
+    @Builder
+    public Member(String name, String email, String password, Gender gender, LocalDate birthDate) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.birthDate = birthDate;
     }
-
-    public static class Builder {
-        private Long id;
-        private String name;
-        private String email;
-        private Gender gender;
-        private LocalDate birthDate;
-
-        public Builder id(Long id) { this.id = id; return this; }
-        public Builder name(String name) { this.name = name; return this; }
-        public Builder email(String email) { this.email = email; return this; }
-        public Builder gender(Gender gender) { this.gender = gender; return this; }
-        public Builder birthDate(LocalDate birthDate) { this.birthDate = birthDate; return this; }
-
-        public Member build() { return new Member(this); }
-    }
-
-    public static Builder builder() { return new Builder(); }
 
     public boolean hasEmail(String email) {
         return this.email.equalsIgnoreCase(email);
@@ -68,5 +61,15 @@ public class Member extends BaseEntity {
     public void removeArticle(Article article) {
         articles.remove(article);
         article.setAuthor(null);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setAuthor(this);
+    }
+
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
+        comment.setAuthor(null);
     }
 }

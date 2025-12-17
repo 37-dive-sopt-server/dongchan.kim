@@ -3,10 +3,10 @@ package org.sopt.exception;
 import lombok.Getter;
 
 @Getter
-public abstract class DomainException extends RuntimeException {
+public class DomainException extends RuntimeException {
     private final ErrorCode errorCode;
 
-    protected DomainException(ErrorCode errorCode) {
+    public DomainException(ErrorCode errorCode) {
         super(errorCode.getDefaultMessage());
         this.errorCode = errorCode;
     }

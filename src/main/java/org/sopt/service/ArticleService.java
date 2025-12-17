@@ -64,15 +64,7 @@ public class ArticleService {
     }
 
     private ArticleResponse toResponse(Article article) {
-        return new ArticleResponse(
-                article.getId(),
-                article.getAuthor().getId(),
-                article.getAuthor().getName(),
-                article.getTag().name(),
-                article.getTitle(),
-                article.getContent(),
-                article.getCreatedAt()
-        );
+        return ArticleResponse.fromWithComments(article);
     }
 
 

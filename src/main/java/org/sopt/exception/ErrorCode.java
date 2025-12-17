@@ -24,7 +24,13 @@ public enum ErrorCode {
 
     // Article
     ARTICLE_NOT_FOUND(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다"),
-    DUPLICATE_ARTICLE_TITLE(HttpStatus.CONFLICT, "이미 존재하는 제목입니다");
+    DUPLICATE_ARTICLE_TITLE(HttpStatus.CONFLICT, "이미 존재하는 제목입니다"),
+
+    // Auth
+    INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 올바르지 않습니다."),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
+    UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "인증이 필요합니다.");
 
 
     private final HttpStatus status;

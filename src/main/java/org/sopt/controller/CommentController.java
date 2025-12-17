@@ -5,9 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.domain.common.ApiResponse;
 import org.sopt.dto.comment.CommentRequest;
 import org.sopt.dto.comment.CommentResponse;
+import org.sopt.security.MemberPrincipal;
 import org.sopt.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,13 +21,17 @@ public class CommentController {
 
     private final CommentService commentService;
 
-
+    /**
+     * 댓글 생성
+     * POST /api/articles/{articleId}/comments
+     */
     @PostMapping
     public ResponseEntity<ApiResponse<CommentResponse>> createComment(
             @PathVariable Long articleId,
-            @RequestHeader("Member-Id") Long memberId,
+            @AuthenticationPrincipal MemberPrincipal principal,
             @Valid @RequestBody CommentRequest request) {
 
+        Long memberId = principal.getId();
         CommentResponse response = commentService.createComment(articleId, memberId, request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -44,6 +50,7 @@ public class CommentController {
 
     @GetMapping("/{commentId}")
     public ResponseEntity<ApiResponse<CommentResponse>> getComment(
+            @PathVariable Long articleId,
             @PathVariable Long commentId) {
 
         CommentResponse response = commentService.getComment(commentId);
@@ -53,10 +60,12 @@ public class CommentController {
 
     @PutMapping("/{commentId}")
     public ResponseEntity<ApiResponse<CommentResponse>> updateComment(
+            @PathVariable Long articleId,
             @PathVariable Long commentId,
-            @RequestHeader("Member-Id") Long memberId,
+            @AuthenticationPrincipal MemberPrincipal principal,
             @Valid @RequestBody CommentRequest request) {
 
+        Long memberId = principal.getId();
         CommentResponse response = commentService.updateComment(commentId, memberId, request);
         return ResponseEntity.ok(ApiResponse.success("댓글이 수정되었습니다.", response));
     }
@@ -64,9 +73,11 @@ public class CommentController {
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<ApiResponse<Void>> deleteComment(
+            @PathVariable Long articleId,
             @PathVariable Long commentId,
-            @RequestHeader("Member-Id") Long memberId) {
+            @AuthenticationPrincipal MemberPrincipal principal) {  // ✅ JWT에서 자동 추출
 
+        Long memberId = principal.getId();
         commentService.deleteComment(commentId, memberId);
         return ResponseEntity.ok(ApiResponse.success("댓글이 삭제되었습니다.", null));
     }

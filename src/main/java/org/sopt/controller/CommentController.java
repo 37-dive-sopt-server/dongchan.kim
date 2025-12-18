@@ -21,10 +21,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    /**
-     * 댓글 생성
-     * POST /api/articles/{articleId}/comments
-     */
+
     @PostMapping
     public ResponseEntity<ApiResponse<CommentResponse>> createComment(
             @PathVariable Long articleId,
@@ -75,7 +72,7 @@ public class CommentController {
     public ResponseEntity<ApiResponse<Void>> deleteComment(
             @PathVariable Long articleId,
             @PathVariable Long commentId,
-            @AuthenticationPrincipal MemberPrincipal principal) {  // ✅ JWT에서 자동 추출
+            @AuthenticationPrincipal MemberPrincipal principal) {
 
         Long memberId = principal.getId();
         commentService.deleteComment(commentId, memberId);

@@ -5,6 +5,9 @@ import lombok.*;
 import org.sopt.domain.common.BaseEntity;
 import org.sopt.domain.enums.ArticleTag;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(
         name = "article",
@@ -39,6 +42,9 @@ public class Article extends BaseEntity {
     @Column(nullable = false)
     private String content;
 
+    @OneToMany(mappedBy = "article" , cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     private Article(Member author, ArticleTag tag, String title, String content) {
         this.author = author;
         this.tag = tag;
@@ -54,4 +60,15 @@ public class Article extends BaseEntity {
     public void changeContent(String content) { this.content = content; }
     public void changeTag(ArticleTag tag) { this.tag = tag; }
     public void setAuthor(Member author) { this.author = author; }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.setArticle(this);
+    }
+
+    public void removeComment(Comment comment) {
+        comments.remove(comment);
+        comment.setArticle(null);
+    }
+
 }
